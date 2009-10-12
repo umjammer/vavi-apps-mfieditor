@@ -1,0 +1,34 @@
+#
+# Copyright (c) 2003 by Naohide Sano, All rights reserved.
+#
+# Written by Naohide Sano
+#
+# ant properties for test.154
+#
+# @author	Naohide Sano
+# @version	0.00	031213	nsano	initial version
+#
+
+#
+# t1
+#
+vavi.sound.mfi.t4.midi_in=C:/WINDOWS/Media/flourish.mid
+vavi.sound.mfi.t4.mfi_out=C:/home/nsano/src/java/vavi/sound/mfi/flourish.mld
+#vavi.sound.mfi.t4.midi_in=C:/tmp/000/EN2184A/DOS/FMTEST.MID
+#vavi.sound.mfi.t4.mfi_out=C:/home/nsano/src/java/vavi/sound/mfi/fmtest.mld
+#vavi.sound.mfi.t4.mfi_out=C:/home/nsano/src/java/vavi/sound/mfi/town.mld
+#vavi.sound.mfi.t4.mfi_out=C:/home/nsano/src/java/vavi/sound/mfi/onestop.mld
+#vavi.sound.mfi.t4.mfi_out=C:/home/nsano/src/java/vavi/sound/mfi/HOTEL PACIFIC.mld
+#vavi.sound.mfi.t4.mfi_out=C:/home/nsano/src/java/vavi/sound/mfi/automatic.mld
+
+#
+# t2
+#
+test.154.t2.mfi_in=C:/home/nsano/src/java/vavi/sound/mfi/fmtest_psm.mld
+#test.154.t2.mfi_in=C:/home/nsano/src/java/vavi/sound/mfi/flourish_psm.mld
+#test.154.t2.mfi_in=C:/home/nsano/src/java/vavi/sound/mfi/town_psm.mld
+#test.154.t2.mfi_in=C:/home/nsano/src/java/vavi/sound/mfi/onestop_psm.mld
+#test.154.t2.mfi_in=C:/home/nsano/src/java/vavi/sound/mfi/HOTEL PACIFIC_psm.mld
+#test.154.t2.mfi_in=C:/home/nsano/src/java/vavi/sound/mfi/automatic_psm.mld
+
+##

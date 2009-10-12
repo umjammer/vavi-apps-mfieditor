@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+
+<!-- ////////////////////////////////////////////////////////////////////// -->
+<!-- Copyright (c) 2003 by Naohide Sano, All rights reserved.               -->
+<!--                                                                        -->
+<!-- Written by Naohide Sano                                                -->
+<!--                                                                        -->
+<!-- MFiEditor                                                              -->
+<!--                                                                        -->
+<!-- @author	Naohide Sano                                                -->
+<!-- @version	0.00	030920	nsano	initial version                     -->
+<!--                                                                        -->
+<!-- ////////////////////////////////////////////////////////////////////// -->
+
+<project name="MFiEditor" default="run" basedir=".">
+
+  <property file="local.properties" />
+
+  <property name="dir.build" value="build" />
+  <property name="dir.work" value="work" />
+
+  <!-- クラスパスの定義 -->
+  <path id="project.class.path">
+    <pathelement location="../.." />
+    <pathelement location="${dir.build}" />
+    <fileset dir="lib">
+      <include name="*.jar" />
+    </fileset>
+  </path>
+
+  <!-- ターゲットの定義 -->
+
+  <!-- clean -->
+  <target name="clean" description="ビルド環境のクリア">
+    <delete dir="${dir.build}" />
+    <delete dir="${dir.work}" />
+  </target>
+
+  <!-- prepare -->
+  <target name="prepare" description="ビルド環境の">
+    <mkdir dir="${dir.build}" />
+  </target>
+
+  <!-- javac vavi.sound -->
+  <target name="compile.vavi.sound" description="コンパイル vavi.sound">
+    <ant dir="../../vavi/sound" target="compile.all" />
+  </target>
+
+  <!-- javac -->
+  <target name="compile" depends="compile.vavi.sound,prepare"
+          description="コンパイル">
+    <javac debug="on" destdir="${dir.build}">
+      <classpath refid="project.class.path" />
+      <include name="**/*.java" />
+      <src path="src" />
+    </javac>
+  </target>
+
+  <!-- run -->
+  <target name="run" depends="compile" description="Executes the Program">
+    <java classname="MfiEditor" fork="yes">
+      <jvmarg value="-Duser.home=${home.dir}" />
+      <classpath refid="project.class.path"/>
+      <arg value="${dir}" />
+    </java>
+  </target>
+
+  <!-- t1 -->
+  <target name="t1" depends="compile" description="Executes after convert">
+    <ant dir="../../vavi/sound/mfi" target="t4" />
+    <java classname="MfiEditor" fork="yes">
+      <jvmarg value="-Duser.home=${home.dir}" />
+      <classpath refid="project.class.path"/>
+      <arg value="${vavi.sound.mfi.t4.mfi_out}" />
+    </java>
+  </target>
+
+  <!-- t2 -->
+  <target name="t2" depends="compile" description="Executes the Program">
+    <java classname="MfiEditor" fork="yes">
+      <jvmarg value="-Duser.home=${home.dir}" />
+      <classpath refid="project.class.path"/>
+      <arg value="${test.154.t2.mfi_in}" />
+    </java>
+  </target>
+
+  <!-- t3 -->
+  <target name="t3" depends="compile" description="Executes the Program">
+    <java classname="MfiEditor" fork="yes">
+      <jvmarg value="-Duser.home=${home.dir}" />
+      <classpath refid="project.class.path"/>
+      <arg value="${test.154.t3.mfi_in}" />
+    </java>
+  </target>
+
+</project>
+
+<!-- -->
