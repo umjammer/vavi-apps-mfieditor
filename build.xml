@@ -12,7 +12,8 @@
 <!--                                                                        -->
 <!-- ////////////////////////////////////////////////////////////////////// -->
 
-<project name="MFiEditor" default="run" basedir=".">
+<project name="MFiEditor" default="run" basedir="."
+         xmlns:ivy="antlib:org.apache.ivy.ant">
 
   <property file="local.properties" />
 
@@ -21,8 +22,6 @@
 
   <!-- クラスパスの定義 -->
   <path id="project.class.path">
-    <pathelement location="../.." />
-    <pathelement location="${dir.build}" />
     <fileset dir="lib">
       <include name="*.jar" />
     </fileset>
@@ -32,35 +31,47 @@
 
   <!-- clean -->
   <target name="clean" description="ビルド環境のクリア">
-    <delete dir="${dir.build}" />
-    <delete dir="${dir.work}" />
+    <delete>
+      <fileset dir="${dir.build}">
+        <include name="**/*" />
+      </fileset>
+      <fileset dir="target/test-classes">
+        <include name="**/*" />
+      </fileset>
+    </delete>
   </target>
 
   <!-- prepare -->
   <target name="prepare" description="ビルド環境の">
+    <ivy:settings file="ivy-settings.xml" />
+    <ivy:convertpom pomFile="pom.xml" ivyFile="ivy.xml" />
+    <ivy:retrieve />
     <mkdir dir="${dir.build}" />
   </target>
 
-  <!-- javac vavi.sound -->
-  <target name="compile.vavi.sound" description="コンパイル vavi.sound">
-    <ant dir="../../vavi/sound" target="compile.all" />
-  </target>
-
   <!-- javac -->
-  <target name="compile" depends="compile.vavi.sound,prepare"
-          description="コンパイル">
-    <javac debug="on" destdir="${dir.build}">
+  <target name="compile" depends="prepare" description="コンパイル">
+    <javac debug="on" encoding="MS932" destdir="${dir.build}">
       <classpath refid="project.class.path" />
       <include name="**/*.java" />
-      <src path="src" />
+      <src path="src/main/java" />
     </javac>
+
+    <copy todir="${dir.build}">
+      <fileset dir="src/main/resources">
+        <include name="**/*" />
+      </fileset>
+    </copy>
   </target>
 
   <!-- run -->
   <target name="run" depends="compile" description="Executes the Program">
     <java classname="MfiEditor" fork="yes">
       <jvmarg value="-Duser.home=${home.dir}" />
-      <classpath refid="project.class.path"/>
+      <classpath>
+        <path refid="project.class.path" />
+        <pathelement location="${dir.build}" />
+      </classpath>
       <arg value="${dir}" />
     </java>
   </target>
@@ -70,7 +81,10 @@
     <ant dir="../../vavi/sound/mfi" target="t4" />
     <java classname="MfiEditor" fork="yes">
       <jvmarg value="-Duser.home=${home.dir}" />
-      <classpath refid="project.class.path"/>
+      <classpath>
+        <path refid="project.class.path" />
+        <pathelement location="${dir.build}" />
+      </classpath>
       <arg value="${vavi.sound.mfi.t4.mfi_out}" />
     </java>
   </target>

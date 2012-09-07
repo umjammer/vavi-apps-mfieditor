@@ -443,7 +443,7 @@ Debug.println("model set: " + model);
                 case 241:
                     return "ExtendedEdit";
                 case 255:
-                    return "MachineDependDepth";
+                    return "MachineDependentDepth";
                 default:
                     return "Normal (" + StringUtil.toHex2(command) + ")";
                 }
