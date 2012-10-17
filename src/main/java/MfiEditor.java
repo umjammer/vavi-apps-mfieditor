@@ -48,7 +48,7 @@ import vavi.util.RegexFileFilter;
 
 
 /**
- * MFi ƒtƒ@ƒCƒ‹‚ÌƒGƒfƒBƒ^‚Å‚·D
+ * MFi ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¨ãƒ‡ã‚£ã‚¿ã§ã™ï¼
  * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 010911 nsano initial version <br>
@@ -67,21 +67,21 @@ public class MfiEditor {
 
     private SequenceTable table;
 
-    /** ƒgƒ‰ƒbƒNƒZƒŒƒNƒ^ */
+    /** ãƒˆãƒ©ãƒƒã‚¯ã‚»ãƒ¬ã‚¯ã‚¿ */
     private JComboBox selector;
-    /** ProgramChange ‚¾‚¯‚ğŒ©‚¹‚é‚©‚Ç‚¤‚© */
+    /** ProgramChange ã ã‘ã‚’è¦‹ã›ã‚‹ã‹ã©ã†ã‹ */
     private JCheckBox onlyProgramChange;
-    /** NoteOn ‚¾‚¯‚ğŒ©‚¹‚é‚©‚Ç‚¤‚© */
+    /** NoteOn ã ã‘ã‚’è¦‹ã›ã‚‹ã‹ã©ã†ã‹ */
     private JCheckBox onlyNoteOn;
-    /** PitchBend ‚¾‚¯‚ğŒ©‚¹‚é‚©‚Ç‚¤‚© */
+    /** PitchBend ã ã‘ã‚’è¦‹ã›ã‚‹ã‹ã©ã†ã‹ */
     private JCheckBox onlyPitchBend;
-    /** ƒ`ƒƒƒ“ƒlƒ‹‚ğƒgƒ‰ƒbƒN‚ÉU‚è•ª‚¯‚é‚©‚Ç‚¤‚© */
+    /** ãƒãƒ£ãƒ³ãƒãƒ«ã‚’ãƒˆãƒ©ãƒƒã‚¯ã«æŒ¯ã‚Šåˆ†ã‘ã‚‹ã‹ã©ã†ã‹ */
     private JCheckBox dispatchChannel;
 
     /** */
     private JFrame frame;
     
-    /** MIDI ƒtƒ@ƒCƒ‹ƒGƒfƒBƒ^‚ğ\’z‚µ‚Ü‚·D */
+    /** MIDI ãƒ•ã‚¡ã‚¤ãƒ«ã‚¨ãƒ‡ã‚£ã‚¿ã‚’æ§‹ç¯‰ã—ã¾ã™ï¼ */
     private MfiEditor() {
 
         frame = new JFrame("MfiEditor");
@@ -120,7 +120,7 @@ public class MfiEditor {
         
         frame.getContentPane().add(toolBar, BorderLayout.SOUTH);
         
-        // ---- ƒƒjƒ…[‚Ì\’z
+        // ---- ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®æ§‹ç¯‰
         JMenuBar menuBar = new JMenuBar();
         
         JMenu menu = new JMenu("File");
@@ -396,9 +396,9 @@ Debug.println(e);
         }
     };
 
-    /** ƒe[ƒuƒ‹ƒf[ƒ^‚Ìƒ[ƒ_ */
+    /** ãƒ†ãƒ¼ãƒ–ãƒ«ãƒ‡ãƒ¼ã‚¿ã®ãƒ­ãƒ¼ãƒ€ */
     private class Loader extends SwingWorker<Void, Void> {
-    	/** ƒe[ƒuƒ‹ƒf[ƒ^‚ğƒ[ƒh‚µ‚Ü‚·D */
+    	/** ãƒ†ãƒ¼ãƒ–ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¾ã™ï¼ */
     	public Void doInBackground() {
 
             playAction.setEnabled(false);
@@ -408,12 +408,12 @@ Debug.println(e);
             onlyNoteOn.setSelected(false);
             
             try {
-                // ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
+                // ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿
                 Sequence sequence =
                     MfiSystem.getSequence(
                             new ProgressMonitorInputStream(
                                     null,
-                                    "“Ç‚İ‚İ’† " + file,
+                                    "èª­ã¿è¾¼ã¿ä¸­ " + file,
                                     new BufferedInputStream(new FileInputStream(file))));
                 
                 table.removeTableModelListener(tml);
@@ -434,7 +434,7 @@ Debug.printStackTrace(e);
 
             return null;
     	}
-        /** ƒ[ƒhI—¹ŒãŒÄ‚Î‚ê‚Ü‚·D */
+        /** ãƒ­ãƒ¼ãƒ‰çµ‚äº†å¾Œå‘¼ã°ã‚Œã¾ã™ï¼ */
     	protected void done() {
     	    try {
                 get();

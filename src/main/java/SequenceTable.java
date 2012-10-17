@@ -84,7 +84,7 @@ Debug.println("model set: " + model);
         return model.getTracks();
     }
 
-    /** ƒgƒ‰ƒbƒNƒiƒ“ƒo[‚ğ•Ô‚µ‚Ü‚·D */
+    /** ãƒˆãƒ©ãƒƒã‚¯ãƒŠãƒ³ãƒãƒ¼ã‚’è¿”ã—ã¾ã™ï¼ */
     public void setTrackNumber(int trackNumber) {
         model.setTrackNumber(trackNumber);
     }
@@ -109,9 +109,9 @@ Debug.println("model set: " + model);
         model.fireTableChanged(new TableModelEvent(model));
     }
 
-    /** ƒe[ƒuƒ‹‚ÌƒZƒ‹ƒŒƒ“ƒ_ƒ‰ */
+    /** ãƒ†ãƒ¼ãƒ–ãƒ«ã®ã‚»ãƒ«ãƒ¬ãƒ³ãƒ€ãƒ© */
     private TableCellRenderer tcRenderer = new DefaultTableCellRenderer() {
-        /** ƒŒƒ“ƒ_ƒ‰‚ÌƒeƒLƒXƒg‚ğİ’è‚µ‚Ü‚·D */
+        /** ãƒ¬ãƒ³ãƒ€ãƒ©ã®ãƒ†ã‚­ã‚¹ãƒˆã‚’è¨­å®šã—ã¾ã™ï¼ */
         public Component getTableCellRendererComponent(JTable table,
                 Object value,
                 boolean isSelected,
@@ -120,7 +120,7 @@ Debug.println("model set: " + model);
                 int column) {
             MfiEvent event = (MfiEvent) value;
             
-            // Œ»İ‚Ì Tick ’l‚É‚ ‚é Mfi ƒƒbƒZ[ƒW‚ğæ‚èo‚·
+            // ç¾åœ¨ã® Tick å€¤ã«ã‚ã‚‹ Mfi ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–ã‚Šå‡ºã™
             MfiMessage message = event.getMessage();
             
             if (isSelected) {
@@ -148,7 +148,7 @@ Debug.println("model set: " + model);
                 setBorder(noFocusBorder);
             }
             
-            // Œ»İ‚Ì Tick ’l‚Ìæ“¾
+            // ç¾åœ¨ã® Tick å€¤ã®å–å¾—
             int delta = message.getDelta();
             
             if (message instanceof ShortMessage) {
@@ -215,7 +215,7 @@ Debug.println("model set: " + model);
                     break;
                 }
             } else if (message instanceof NoteMessage) {
-                // note ‚Ìƒf[ƒ^‚ğæ‚èo‚·
+                // note ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–ã‚Šå‡ºã™
                 NoteMessage msg = (NoteMessage) message;
                 int channel = msg.getVoice();
                 int note = msg.getNote() + 45;
@@ -239,7 +239,7 @@ Debug.println("model set: " + model);
                     break;
                 }
             } else if (message instanceof SysexMessage) {
-                // Sysex ‚Ìƒf[ƒ^‚ğæ‚èo‚·
+                // Sysex ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–ã‚Šå‡ºã™
                 SysexMessage msg = (SysexMessage) message;
                 byte[] data = msg.getMessage();
                 StringBuilder sb1 = new StringBuilder();
@@ -270,7 +270,7 @@ Debug.println("model set: " + model);
                     break;
                 }
             } else if (message instanceof MetaMessage) {
-                // MetaMessage ‚Ìƒf[ƒ^‚ğæ‚èo‚·
+                // MetaMessage ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–ã‚Šå‡ºã™
                 MetaMessage msg = (MetaMessage) message;
                 int type = msg.getType();
                 byte[] data = msg.getMessage();
@@ -296,7 +296,7 @@ Debug.println("model set: " + model);
                     setText(sb.toString());
                     break;
                 }
-            } else if (message instanceof vavi.sound.mfi.vavi.track.UndefinedMessage) { // TODO vavi ƒpƒbƒP[ƒW‚ÉˆË‘¶
+            } else if (message instanceof vavi.sound.mfi.vavi.track.UndefinedMessage) { // TODO vavi ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã«ä¾å­˜
                 vavi.sound.mfi.vavi.track.UndefinedMessage msg = (vavi.sound.mfi.vavi.track.UndefinedMessage) message;
                 int status = msg.getStatus();
                 byte[] data = msg.getMessage();
@@ -323,7 +323,7 @@ Debug.println("model set: " + model);
                     setText("");
                     break;
                 }
-            } else if (message instanceof vavi.sound.mfi.vavi.AudioDataMessage) { // TODO vavi ƒpƒbƒP[ƒW‚ÉˆË‘¶
+            } else if (message instanceof vavi.sound.mfi.vavi.AudioDataMessage) { // TODO vavi ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã«ä¾å­˜
                 vavi.sound.mfi.vavi.AudioDataMessage msg = (vavi.sound.mfi.vavi.AudioDataMessage) message;
                 byte[] data = msg.getData();
                 int index = msg.getAudioDataNumber();
@@ -361,7 +361,7 @@ Debug.println("model set: " + model);
             return this;
         }
         
-        /** ƒCƒxƒ“ƒg–¼‚ğæ“¾‚µ‚Ü‚·D */
+        /** ã‚¤ãƒ™ãƒ³ãƒˆåã‚’å–å¾—ã—ã¾ã™ï¼ */
         private String getEventName(int status, int command) {
             switch (status) {
             case MfiMessage.STATUS_CLASS_A:
@@ -462,7 +462,7 @@ Debug.println("model set: " + model);
 
     //-------------------------------------------------------------------------
 
-    /** ƒJƒ‰ƒ€‚Ì–¼‘O */
+    /** ã‚«ãƒ©ãƒ ã®åå‰ */
     private static final String columnNames[] = {
         "track", "delta", "voice", "event", "data1", "data2"
     };
@@ -478,7 +478,7 @@ Debug.println("model set: " + model);
         /** */
         private List<MfiEvent> events;
 
-        /** ƒgƒ‰ƒbƒN”Ô† */
+        /** ãƒˆãƒ©ãƒƒã‚¯ç•ªå· */
         private int trackNumber;
 
         /** */
@@ -489,7 +489,7 @@ Debug.println("model set: " + model);
         /** */
 //  	private Set<Filter> filters = new HashSet<Filter>();
 
-        /** ƒe[ƒuƒ‹ƒ‚ƒfƒ‹‚ğ\’z‚µ‚Ü‚·D */
+        /** ãƒ†ãƒ¼ãƒ–ãƒ«ãƒ¢ãƒ‡ãƒ«ã‚’æ§‹ç¯‰ã—ã¾ã™ï¼ */
         public SequenceTableModel(Sequence sequence) {
 
             if (sequence.getTracks().length < 1) {
@@ -510,12 +510,12 @@ Debug.println("model set: " + model);
             return tracks;
         }
 
-        /** ƒgƒ‰ƒbƒNƒiƒ“ƒo[‚ğ•Ô‚µ‚Ü‚·D */
+        /** ãƒˆãƒ©ãƒƒã‚¯ãƒŠãƒ³ãƒãƒ¼ã‚’è¿”ã—ã¾ã™ï¼ */
         public int getTrackNumber() {
             return trackNumber;
         }
 
-        /** ƒgƒ‰ƒbƒNƒiƒ“ƒo[‚ğ•Ô‚µ‚Ü‚·D */
+        /** ãƒˆãƒ©ãƒƒã‚¯ãƒŠãƒ³ãƒãƒ¼ã‚’è¿”ã—ã¾ã™ï¼ */
         public void setTrackNumber(int trackNumber) {
             this.trackNumber = trackNumber;
 
@@ -625,22 +625,22 @@ Debug.println("model set: " + model);
 
         //---------------------------------------------------------------------
 
-        /** ƒJƒ‰ƒ€”‚ğæ“¾‚µ‚Ü‚·D */
+        /** ã‚«ãƒ©ãƒ æ•°ã‚’å–å¾—ã—ã¾ã™ï¼ */
         public int getColumnCount() {
             return columnNames.length;
         }
 
-        /** ƒJƒ‰ƒ€–¼‚ğæ“¾‚µ‚Ü‚·D */
+        /** ã‚«ãƒ©ãƒ åã‚’å–å¾—ã—ã¾ã™ï¼ */
         public String getColumnName(int columnIndex) {
             return columnNames[columnIndex];
         }
 
-        /** s”‚ğæ“¾‚µ‚Ü‚·D */
+        /** è¡Œæ•°ã‚’å–å¾—ã—ã¾ã™ï¼ */
         public int getRowCount() {
             return events.size();
         }
 
-        /** w’è‚µ‚½ƒJƒ‰ƒ€Cs‚É‚ ‚é’l‚ğæ“¾‚µ‚Ü‚·D */
+        /** æŒ‡å®šã—ãŸã‚«ãƒ©ãƒ ï¼Œè¡Œã«ã‚ã‚‹å€¤ã‚’å–å¾—ã—ã¾ã™ï¼ */
         public Object getValueAt(int rowIndex, int columnIndex) {
             if (columnIndex == 0) {
                 return new Integer(rowIndex);
@@ -649,12 +649,12 @@ Debug.println("model set: " + model);
             }
         }
 
-        /** ƒJƒ‰ƒ€‚ÌƒNƒ‰ƒX‚ğæ“¾‚µ‚Ü‚·D */
+        /** ã‚«ãƒ©ãƒ ã®ã‚¯ãƒ©ã‚¹ã‚’å–å¾—ã—ã¾ã™ï¼ */
         public Class<?> getColumnClass(int columnIndex) {
             return getValueAt(0, columnIndex).getClass();
         }
 
-        /** w’è‚µ‚½ƒZƒ‹‚ª•ÒW‰Â”\‚©‚Ç‚¤‚©D */
+        /** æŒ‡å®šã—ãŸã‚»ãƒ«ãŒç·¨é›†å¯èƒ½ã‹ã©ã†ã‹ï¼ */
         public boolean isCellEditable(int rowIndex, int columnIndex) {
             return false;
         }

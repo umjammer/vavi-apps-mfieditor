@@ -81,7 +81,7 @@ public class SequenceFrame {
                     MidiEvent event = track.get(e);
                     long tick = event.getTick();
 //System.err.printf("[%02d] %06d: %s\n", t, tick, event);
-                    // Œ»İ‚Ì Tick ’l‚É‚ ‚é Midi ƒƒbƒZ[ƒW‚ğæ‚èo‚·
+                    // ç¾åœ¨ã® Tick å€¤ã«ã‚ã‚‹ Midi ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–ã‚Šå‡ºã™
                     MidiMessage message = event.getMessage();
 
                     if (message instanceof ShortMessage) {
