@@ -60,7 +60,7 @@ public class SequenceFrame {
     class MyPanel extends JPanel {
         /** */
         public void paint(Graphics g) {
-            Map<String, MidiEvent> noteOnEvents = new HashMap<String, MidiEvent>();
+            Map<String, MidiEvent> noteOnEvents = new HashMap<>();
 
 //          int resolution = sequence.getResolution();
             int width = getSize().width;

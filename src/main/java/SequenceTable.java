@@ -95,14 +95,14 @@ Debug.println("model set: " + model);
     }
 
     /** */
-    private Set<Filter> filters = new HashSet<Filter>();
+    private Set<Filter> filters = new HashSet<>();
 
     /** */
     public void addFilter(Filter filter) {
         filters.add(filter);
         model.fireTableChanged(new TableModelEvent(model));
     }
-    
+
     /** */
     public void removeFilter(Filter filter) {
         filters.remove(filter);
@@ -119,10 +119,10 @@ Debug.println("model set: " + model);
                 int row,
                 int column) {
             MfiEvent event = (MfiEvent) value;
-            
+
             // 現在の Tick 値にある Mfi メッセージを取り出す
             MfiMessage message = event.getMessage();
-            
+
             if (isSelected) {
                 super.setForeground(table.getSelectionForeground());
                 super.setBackground(table.getSelectionBackground());
@@ -135,9 +135,9 @@ Debug.println("model set: " + model);
                     }
                 }
             }
-            
+
             setFont(table.getFont());
-            
+
             if (hasFocus) {
                 setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
                 if (table.isCellEditable(row, column)) {
@@ -147,20 +147,20 @@ Debug.println("model set: " + model);
             } else {
                 setBorder(noFocusBorder);
             }
-            
+
             // 現在の Tick 値の取得
             int delta = message.getDelta();
-            
+
             if (message instanceof ShortMessage) {
                 ShortMessage msg = (ShortMessage) message;
                 int status = msg.getStatus();
                 int command = msg.getCommand();
                 int data = msg.getData();
                 switch (column) {
-                case 1:	// delta
+                case 1:    // delta
                     setText(String.valueOf(delta));
                     break;
-                case 2:	// voice
+                case 2:    // voice
                     if (message instanceof ChannelMessage) {
                         int channel = ((ChannelMessage) message).getVoice();
                         setText(String.valueOf(channel + 1));
@@ -168,17 +168,17 @@ Debug.println("model set: " + model);
                         setText("n/a");
                     }
                     break;
-                case 3:	// event
+                case 3:    // event
                     setText(getEventName(status, command));
                     break;
-                case 4:	// data1
+                case 4:    // data1
                     if (message instanceof ChannelMessage) {
                         setText(String.valueOf(data & 0x3f));
                     } else {
                         setText(String.valueOf(data));
                     }
                     break;
-                case 5:	// data2
+                case 5:    // data2
                     setText("");
                     break;
                 }
@@ -222,19 +222,19 @@ Debug.println("model set: " + model);
                 int gateTime = msg.getGateTime();
                 int velocity = msg.getVelocity();
                 switch (column) {
-                case 1:	// delta
+                case 1:    // delta
                     setText(String.valueOf(delta));
                     break;
-                case 2:	// channel
+                case 2:    // channel
                     setText(String.valueOf(channel + 1));
                     break;
-                case 3:	// event
+                case 3:    // event
                     setText("Note");
                     break;
-                case 4:	// data1
+                case 4:    // data1
                     setText(String.valueOf(note));
                     break;
-                case 5:	// data2
+                case 5:    // data2
                     setText(String.valueOf(gateTime) + ", " + String.valueOf(velocity));
                     break;
                 }
@@ -253,19 +253,19 @@ Debug.println("model set: " + model);
                     sb2.append(" ");
                 }
                 switch (column) {
-                case 1:	// delta
+                case 1:    // delta
                     setText(String.valueOf(delta));
                     break;
-                case 2:	// channel
+                case 2:    // channel
                     setText("n/a");
                     break;
-                case 3:	// event
+                case 3:    // event
                     setText("SYSX");
                     break;
-                case 4:	// data1
+                case 4:    // data1
                     setText(sb1.toString());
                     break;
-                case 5:	// data2
+                case 5:    // data2
                     setText(sb2.toString());
                     break;
                 }
@@ -280,19 +280,19 @@ Debug.println("model set: " + model);
                     sb.append(" ");
                 }
                 switch (column) {
-                case 1:	// delta
+                case 1:    // delta
                     setText(String.valueOf(delta));
                     break;
-                case 2:	// channel
+                case 2:    // channel
                     setText("n/a");
                     break;
-                case 3:	// event
+                case 3:    // event
                     setText("META");
                     break;
-                case 4:	// data1
+                case 4:    // data1
                     setText(String.valueOf(type));
                     break;
-                case 5:	// data2
+                case 5:    // data2
                     setText(sb.toString());
                     break;
                 }
@@ -487,7 +487,7 @@ Debug.println("model set: " + model);
         /** */
         private boolean dispatchChannel = false;
         /** */
-//  	private Set<Filter> filters = new HashSet<Filter>();
+//      private Set<Filter> filters = new HashSet<Filter>();
 
         /** テーブルモデルを構築します． */
         public SequenceTableModel(Sequence sequence) {
@@ -498,7 +498,7 @@ Debug.println("model set: " + model);
 
             this.sequence = sequence;
 
-            events = new ArrayList<MfiEvent>();
+            events = new ArrayList<>();
 
             trackNumber = 0;
 
@@ -511,6 +511,7 @@ Debug.println("model set: " + model);
         }
 
         /** トラックナンバーを返します． */
+        @SuppressWarnings("unused")
         public int getTrackNumber() {
             return trackNumber;
         }

@@ -68,7 +68,7 @@ public class MfiEditor {
     private SequenceTable table;
 
     /** トラックセレクタ */
-    private JComboBox selector;
+    private JComboBox<Integer> selector;
     /** ProgramChange だけを見せるかどうか */
     private JCheckBox onlyProgramChange;
     /** NoteOn だけを見せるかどうか */
@@ -80,7 +80,7 @@ public class MfiEditor {
 
     /** */
     private JFrame frame;
-    
+
     /** MIDI ファイルエディタを構築します． */
     private MfiEditor() {
 
@@ -88,49 +88,49 @@ public class MfiEditor {
 
         frame.setSize(new Dimension(600, 480));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
         // ----
         table = new SequenceTable();
-        
+
         JScrollPane scrollPane = new JScrollPane(table);
         frame.getContentPane().add(scrollPane);
-        
+
         // ----
         JToolBar toolBar = new JToolBar();
-        
+
         // 
         toolBar.add(new JLabel("Track: "));
-        selector = new JComboBox();
+        selector = new JComboBox<>();
         selector.addItemListener(trackListener);
         toolBar.add(selector);
-        
+
         dispatchChannel = new JCheckBox(dispatchAction);
         toolBar.add(dispatchChannel);
-        
+
         frame.getContentPane().add(toolBar, BorderLayout.NORTH);
-        
+
         // ----
         toolBar = new JToolBar();
-        
+
         JButton button = new JButton(playAction);
         toolBar.add(button);
-        
+
         button = new JButton(stopAction);
         toolBar.add(button);
-        
+
         frame.getContentPane().add(toolBar, BorderLayout.SOUTH);
-        
+
         // ---- メニューの構築
         JMenuBar menuBar = new JMenuBar();
-        
+
         JMenu menu = new JMenu("File");
         menu.add(openAction);
         menu.add(saveAction);
         menu.add(exitAction);
-        
+
         menuBar.add(menu);
         frame.setJMenuBar(menuBar);
-        
+
         // ---
         JDialog dialog = new JDialog(frame, "Filter", false);
 //      ButtonGroup group = new ButtonGroup();
@@ -147,7 +147,7 @@ public class MfiEditor {
         dialog.getContentPane().add(p);
         dialog.pack();
         dialog.setVisible(true);
-        
+
         // init midi
         try {
             sequencer = MfiSystem.getSequencer();
@@ -160,7 +160,7 @@ Debug.printStackTrace(e);
             System.err.println("MfiSystem Sequencer Unavailable, exiting!");
             System.exit(1);
         }
-        
+
         // frame
         frame.setVisible(true);
     }
@@ -315,7 +315,7 @@ Debug.println(e);
     SequenceTable.Filter onlyGe255filter = new SequenceTable.Filter() {
         public boolean accept(MfiMessage message) {
             return message instanceof NoteMessage &&
-            	   ((NoteMessage) message).getGateTime() >= 255;
+                   ((NoteMessage) message).getGateTime() >= 255;
         }
     };
     /** */
@@ -398,15 +398,15 @@ Debug.println(e);
 
     /** テーブルデータのローダ */
     private class Loader extends SwingWorker<Void, Void> {
-    	/** テーブルデータをロードします． */
-    	public Void doInBackground() {
+        /** テーブルデータをロードします． */
+        public Void doInBackground() {
 
             playAction.setEnabled(false);
             stopAction.setEnabled(false);
 
             onlyProgramChange.setSelected(false);
             onlyNoteOn.setSelected(false);
-            
+
             try {
                 // ファイルの読み込み
                 Sequence sequence =
@@ -415,11 +415,11 @@ Debug.println(e);
                                     null,
                                     "読み込み中 " + file,
                                     new BufferedInputStream(new FileInputStream(file))));
-                
+
                 table.removeTableModelListener(tml);
                 table.setSequence(sequence);
                 table.addTableModelListener(tml);
-                
+
                 sequencer.setSequence(sequence);
 
 
@@ -433,20 +433,20 @@ Debug.printStackTrace(e);
             }
 
             return null;
-    	}
+        }
         /** ロード終了後呼ばれます． */
-    	protected void done() {
-    	    try {
+        protected void done() {
+            try {
                 get();
             } catch (Exception e) {
                 e.printStackTrace(System.err);
             }
 
             initSelector();
-            
+
             playAction.setEnabled(true);
             stopAction.setEnabled(false);
-            
+
             frame.setTitle("MfiEditor - " + file.getAbsolutePath());
         }
     }
