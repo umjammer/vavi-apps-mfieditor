@@ -25,7 +25,7 @@ import javax.swing.JScrollPane;
 
 /**
  * SequenceFrame.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 070618 nsano initial version <br>
  */
@@ -98,7 +98,7 @@ public class SequenceFrame {
                             if (noteOnEvent != null) {
                                 long noteOnTick = noteOnEvent.getTick();
 //                              ShortMessage noteOnMessage = (ShortMessage) noteOnEvent.getMessage();
-                                int y = channel* 88 + data1; 
+                                int y = channel* 88 + data1;
                                 int x1 = (int) ((float) noteOnTick * width / maxTick);
                                 int x2 = (int) ((float) tick * width / maxTick);
                                 g.setColor(Color.black);

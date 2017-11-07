@@ -35,7 +35,7 @@ import vavi.util.StringUtil;
 
 /**
  * TableModel for MFi Sequence
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 030920 nsano initial version <br>
  */
@@ -357,10 +357,10 @@ Debug.println("model set: " + model);
             } else {
                 Debug.println("not implemented for: " + message.getClass());
             }
-            
+
             return this;
         }
-        
+
         /** イベント名を取得します． */
         private String getEventName(int status, int command) {
             switch (status) {

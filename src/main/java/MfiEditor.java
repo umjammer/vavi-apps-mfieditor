@@ -49,7 +49,7 @@ import vavi.util.RegexFileFilter;
 
 /**
  * MFi ファイルのエディタです．
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 010911 nsano initial version <br>
  *          0.01 031213 nsano refine file filter <br>
@@ -98,7 +98,7 @@ public class MfiEditor {
         // ----
         JToolBar toolBar = new JToolBar();
 
-        // 
+        //
         toolBar.add(new JLabel("Track: "));
         selector = new JComboBox<>();
         selector.addItemListener(trackListener);
@@ -354,7 +354,7 @@ Debug.println(e);
     /** */
     private Action onlyNopAction = new AbstractAction("Nop") {
         public void actionPerformed(ActionEvent ev) {
-            table.removeTableModelListener(tml); 
+            table.removeTableModelListener(tml);
             if (onlyPitchBend.isSelected()) {
                 table.addFilter(onlyNopfilter);
             } else {
