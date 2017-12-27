@@ -36,7 +36,7 @@ import vavi.util.StringUtil;
 /**
  * TableModel for MFi Sequence
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030920 nsano initial version <br>
  */
 public class SequenceTable extends JTable {
