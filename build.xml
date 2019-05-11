@@ -7,91 +7,72 @@
 <!--                                                                        -->
 <!-- MFiEditor                                                              -->
 <!--                                                                        -->
-<!-- @author	Naohide Sano                                                -->
-<!-- @version	0.00	030920	nsano	initial version                     -->
+<!-- @author Naohide Sano                                                   -->
+<!-- @version 0.00 030920 nsano initial version                             -->
 <!--                                                                        -->
 <!-- ////////////////////////////////////////////////////////////////////// -->
 
 <project name="MFiEditor" default="run" basedir="."
-         xmlns:ivy="antlib:org.apache.ivy.ant">
+  xmlns:artifact="urn:maven-artifact-ant">
+
+  <path id="maven-ant-tasks.classpath">
+    <fileset dir="${user.home}/lib/java">
+      <include name="maven-ant-tasks*.jar" />
+    </fileset>
+  </path>
+  <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant"
+           classpathref="maven-ant-tasks.classpath" /> 
 
   <property environment="env"/>
   <property file="local.properties" />
+  <xmlproperty file="pom.xml" />
 
-  <property name="dir.build" value="build" />
-  <property name="dir.work" value="work" />
-
-  <!-- クラスパスの定義 -->
+  <!-- Path Definitions -->
   <path id="project.class.path">
-    <fileset dir="lib">
-      <include name="*.jar" />
-    </fileset>
+    <pathelement location="${javac.dest.test}" />
+    <pathelement location="${javac.dest}" />
+    <fileset refid="maven-ant-tasks.dependency.fileset" />
   </path>
 
-  <!-- ターゲットの定義 -->
-
-  <!-- clean -->
-  <target name="clean" description="ビルド環境のクリア">
-    <delete>
-      <fileset dir="${dir.build}">
-        <include name="**/*" />
-      </fileset>
-      <fileset dir="target/test-classes">
-        <include name="**/*" />
-      </fileset>
-    </delete>
-  </target>
-
   <!-- prepare -->
-  <target name="prepare" description="ビルド環境の">
-    <ivy:settings file="ivy-settings.xml" />
-    <ivy:convertpom pomFile="pom.xml" ivyFile="ivy.xml" />
-    <ivy:retrieve />
-    <mkdir dir="${dir.build}" />
-  </target>
-
-  <!-- javac -->
-  <target name="compile" depends="prepare" description="コンパイル">
-    <javac debug="on" encoding="${encoding}" destdir="${dir.build}">
-      <classpath refid="project.class.path" />
-      <include name="**/*.java" />
-      <src path="src/main/java" />
-    </javac>
-
-    <copy todir="${dir.build}">
-      <fileset dir="src/main/resources">
-        <include name="**/*" />
-      </fileset>
-    </copy>
+  <target name="prepare" description="Preparing">
+    <artifact:pom file="pom.xml" id="maven.project" />
+    <artifact:dependencies fileSetId="maven-ant-tasks.dependency.fileset">
+      <pom refid="maven.project" />
+    </artifact:dependencies>
+    <artifact:mvn pom="pom.xml">
+      <arg value="-q" />
+      <arg value="clean" />
+      <arg value="package" />
+      <arg value="-DskipTests=true" />
+    </artifact:mvn>
   </target>
 
   <!-- run -->
-  <target name="run" depends="compile" description="Executes the Program">
+  <target name="run" depends="prepare" description="Executes the Program">
     <java classname="MfiEditor" fork="yes">
       <jvmarg value="-Duser.home=${home.dir}" />
       <classpath>
         <path refid="project.class.path" />
-        <pathelement location="${dir.build}" />
       </classpath>
       <arg value="${dir}" />
     </java>
   </target>
 
   <!-- t1 -->
-  <target name="t1" depends="compile" description="Executes after convert">
+  <target name="t1" depends="prepare" description="Executes after convert">
     <ant dir="../../vavi/sound/mfi" target="t4" />
     <java classname="MfiEditor" fork="yes">
       <jvmarg value="-Duser.home=${home.dir}" />
       <classpath>
         <path refid="project.class.path" />
-        <pathelement location="${dir.build}" />
       </classpath>
       <arg value="${vavi.sound.mfi.t4.mfi_out}" />
     </java>
   </target>
 
   <!-- t2 -->
-  <target name="t2" depends="compile" description="Executes the Program">
+  <target name="t2" depends="prepare" description="Executes the Program">
     <java classname="MfiEditor" fork="yes">
       <jvmarg value="-Duser.home=${home.dir}" />
       <classpath refid="project.class.path"/>
@@ -100,7 +81,7 @@
   </target>
 
   <!-- t3 -->
-  <target name="t3" depends="compile" description="Executes the Program">
+  <target name="t3" depends="prepare" description="Executes the Program">
     <java classname="MfiEditor" fork="yes">
       <jvmarg value="-Duser.home=${home.dir}" />
       <classpath refid="project.class.path"/>
