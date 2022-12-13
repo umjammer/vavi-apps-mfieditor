@@ -8,12 +8,12 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-apps-mfieditor</artifactId>
+  <version>1.0.1</version>
 
   <name>Vavi MFi Editor</name>
   <organization>
     <name>vavi</name>
   </organization>
-  <version>1.0.0</version>
   <url>http://github.com/umjammer/vavi-apps-mfieditor</url>
   <description/>
 
