@@ -95,7 +95,7 @@ Debug.println("model set: " + model);
     }
 
     /** */
-    private Set<Filter> filters = new HashSet<>();
+    private final Set<Filter> filters = new HashSet<>();
 
     /** */
     public void addFilter(Filter filter) {
@@ -110,7 +110,7 @@ Debug.println("model set: " + model);
     }
 
     /** テーブルのセルレンダラ */
-    private TableCellRenderer tcRenderer = new DefaultTableCellRenderer() {
+    private final TableCellRenderer tcRenderer = new DefaultTableCellRenderer() {
         /** レンダラのテキストを設定します． */
         public Component getTableCellRendererComponent(JTable table,
                 Object value,
@@ -235,7 +235,7 @@ Debug.println("model set: " + model);
                     setText(String.valueOf(note));
                     break;
                 case 5:    // data2
-                    setText(String.valueOf(gateTime) + ", " + String.valueOf(velocity));
+                    setText(gateTime + ", " + velocity);
                     break;
                 }
             } else if (message instanceof SysexMessage) {
@@ -456,33 +456,33 @@ Debug.println("model set: " + model);
     //-------------------------------------------------------------------------
 
     /** */
-    public static interface Filter {
+    public interface Filter {
         boolean accept(MfiMessage message);
     }
 
     //-------------------------------------------------------------------------
 
     /** カラムの名前 */
-    private static final String columnNames[] = {
+    private static final String[] columnNames = {
         "track", "delta", "voice", "event", "data1", "data2"
     };
     /** */
     protected static final int[] widths = { 50, 50, 50, 130, 130, 200 };
 
     /** */
-    private class SequenceTableModel extends AbstractTableModel {
+    private static class SequenceTableModel extends AbstractTableModel {
 
         /** */
-        private Sequence sequence;
+        private final Sequence sequence;
 
         /** */
-        private List<MfiEvent> events;
+        private final List<MfiEvent> events;
 
         /** トラック番号 */
         private int trackNumber;
 
         /** */
-        private boolean[] tracks = new boolean[17];
+        private final boolean[] tracks = new boolean[17];
 
         /** */
         private boolean dispatchChannel = false;
@@ -644,7 +644,7 @@ Debug.println("model set: " + model);
         /** 指定したカラム，行にある値を取得します． */
         public Object getValueAt(int rowIndex, int columnIndex) {
             if (columnIndex == 0) {
-                return new Integer(rowIndex);
+                return rowIndex;
             } else {
                 return events.get(rowIndex);
             }
