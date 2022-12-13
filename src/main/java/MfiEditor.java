@@ -12,8 +12,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -36,8 +36,6 @@ import javax.swing.event.TableModelListener;
 
 import vavi.sound.mfi.InvalidMfiDataException;
 import vavi.sound.mfi.MetaEventListener;
-import vavi.sound.mfi.MetaMessage;
-import vavi.sound.mfi.MfiMessage;
 import vavi.sound.mfi.MfiSystem;
 import vavi.sound.mfi.MidiConverter;
 import vavi.sound.mfi.NoteMessage;
@@ -65,21 +63,21 @@ public class MfiEditor {
     /** */
     private Thread thread;
 
-    private SequenceTable table;
+    private final SequenceTable table;
 
     /** トラックセレクタ */
-    private JComboBox<Integer> selector;
+    private final JComboBox<Integer> selector;
     /** ProgramChange だけを見せるかどうか */
-    private JCheckBox onlyProgramChange;
+    private final JCheckBox onlyProgramChange;
     /** NoteOn だけを見せるかどうか */
-    private JCheckBox onlyNoteOn;
+    private final JCheckBox onlyNoteOn;
     /** PitchBend だけを見せるかどうか */
-    private JCheckBox onlyPitchBend;
+    private final JCheckBox onlyPitchBend;
     /** チャンネルをトラックに振り分けるかどうか */
-    private JCheckBox dispatchChannel;
+    private final JCheckBox dispatchChannel;
 
     /** */
-    private JFrame frame;
+    private final JFrame frame;
 
     /** MIDI ファイルエディタを構築します． */
     private MfiEditor() {
@@ -165,7 +163,7 @@ Debug.printStackTrace(e);
         frame.setVisible(true);
     }
 
-    private TableModelListener tml = new TableModelListener() {
+    private final TableModelListener tml = new TableModelListener() {
         public void tableChanged(TableModelEvent event) {
 //Debug.println(event.getColumn());
             if (4 == event.getColumn()) {
@@ -180,7 +178,7 @@ Debug.println(e);
     };
 
     /** */
-    private RegexFileFilter fileFilter = new RegexFileFilter();
+    private final RegexFileFilter fileFilter = new RegexFileFilter();
 
     /* */ {
         fileFilter.addPattern(".*\\.(mld|MLD)");
@@ -188,8 +186,8 @@ Debug.println(e);
     }
 
     /** */
-    private Action openAction = new AbstractAction("Open...") {
-        private JFileChooser fc = new JFileChooser();
+    private final Action openAction = new AbstractAction("Open...") {
+        private final JFileChooser fc = new JFileChooser();
         /* init */ {
             fc.setFileFilter(fileFilter);
             fc.setMultiSelectionEnabled(false);
@@ -209,14 +207,14 @@ Debug.println(e);
     };
 
     /** */
-    private Action playAction = new AbstractAction("Play") {
+    private final Action playAction = new AbstractAction("Play") {
         public void actionPerformed(ActionEvent ev) {
             play();
         }
     };
 
     /** */
-    private Action stopAction = new AbstractAction("Stop") {
+    private final Action stopAction = new AbstractAction("Stop") {
         public void actionPerformed(ActionEvent ev) {
             stop();
         }
@@ -266,8 +264,8 @@ Debug.println(e);
     }
 
     /** */
-    private Action saveAction = new AbstractAction("Save") {
-        private JFileChooser fc = new JFileChooser();
+    private final Action saveAction = new AbstractAction("Save") {
+        private final JFileChooser fc = new JFileChooser();
         /* init */ {
             fc.setFileFilter(fileFilter);
             fc.setMultiSelectionEnabled(false);
@@ -289,14 +287,14 @@ Debug.println(e);
     };
 
     /** */
-    private Action exitAction = new AbstractAction("Exit") {
+    private final Action exitAction = new AbstractAction("Exit") {
         public void actionPerformed(ActionEvent ev) {
             System.exit(0);
         }
     };
 
     /** */
-    private Action dispatchAction = new AbstractAction("Dispatch Channel") {
+    private final Action dispatchAction = new AbstractAction("Dispatch Channel") {
         public void actionPerformed(ActionEvent ev) {
             table.removeTableModelListener(tml);
             table.setDispatchChannel(dispatchChannel.isSelected());
@@ -306,27 +304,15 @@ Debug.println(e);
     };
 
     /** */
-    SequenceTable.Filter onlyTempoFilter = new SequenceTable.Filter() {
-        public boolean accept(MfiMessage message) {
-            return message instanceof vavi.sound.mfi.vavi.track.TempoMessage;
-        }
-    };
+    SequenceTable.Filter onlyTempoFilter = message -> message instanceof vavi.sound.mfi.vavi.track.TempoMessage;
     /** */
-    SequenceTable.Filter onlyGe255filter = new SequenceTable.Filter() {
-        public boolean accept(MfiMessage message) {
-            return message instanceof NoteMessage &&
-                   ((NoteMessage) message).getGateTime() >= 255;
-        }
-    };
+    SequenceTable.Filter onlyGe255filter = message -> message instanceof NoteMessage &&
+           ((NoteMessage) message).getGateTime() >= 255;
     /** */
-    SequenceTable.Filter onlyNopfilter = new SequenceTable.Filter() {
-        public boolean accept(MfiMessage message) {
-            return message instanceof vavi.sound.mfi.vavi.track.NopMessage;
-        }
-    };
+    SequenceTable.Filter onlyNopfilter = message -> message instanceof vavi.sound.mfi.vavi.track.NopMessage;
 
     /** */
-    private Action onlyTempoAction = new AbstractAction("Tempo") {
+    private final Action onlyTempoAction = new AbstractAction("Tempo") {
         public void actionPerformed(ActionEvent ev) {
             table.removeTableModelListener(tml);
             if (onlyProgramChange.isSelected()) {
@@ -339,7 +325,7 @@ Debug.println(e);
     };
 
     /** */
-    private Action onlyGe255Action = new AbstractAction(">=255") {
+    private final Action onlyGe255Action = new AbstractAction(">=255") {
         public void actionPerformed(ActionEvent ev) {
             table.removeTableModelListener(tml);
             if (onlyNoteOn.isSelected()) {
@@ -352,7 +338,7 @@ Debug.println(e);
     };
 
     /** */
-    private Action onlyNopAction = new AbstractAction("Nop") {
+    private final Action onlyNopAction = new AbstractAction("Nop") {
         public void actionPerformed(ActionEvent ev) {
             table.removeTableModelListener(tml);
             if (onlyPitchBend.isSelected()) {
@@ -370,16 +356,16 @@ Debug.println(e);
         boolean[] tracks = table.getTracks();
         for (int i = 0; i < tracks.length; i++) {
             if (tracks[i]) {
-                selector.addItem(new Integer(i + 1));
+                selector.addItem(i + 1);
             }
         }
     }
 
     /** */
-    private ItemListener trackListener = new ItemListener() {
+    private final ItemListener trackListener = new ItemListener() {
         public void itemStateChanged(ItemEvent ev) {
             if (ev.getStateChange() == ItemEvent.SELECTED) {
-                int i = ((Integer) selector.getSelectedItem()).intValue() - 1;
+                int i = (Integer) selector.getSelectedItem() - 1;
                 table.removeTableModelListener(tml);
                 table.setTrackNumber(i);
                 table.addTableModelListener(tml);
@@ -388,11 +374,9 @@ Debug.println(e);
     };
 
     /** */
-    private MetaEventListener mel = new MetaEventListener() {
-        public void meta(MetaMessage message) {
-            if (message.getType() == 47) {  // 47 is end of track
-                stop();
-            }
+    private final MetaEventListener mel = message -> {
+        if (message.getType() == 47) {  // 47 is end of track
+            stop();
         }
     };
 
@@ -414,7 +398,7 @@ Debug.println(e);
                             new ProgressMonitorInputStream(
                                     null,
                                     "読み込み中 " + file,
-                                    new BufferedInputStream(new FileInputStream(file))));
+                                    new BufferedInputStream(Files.newInputStream(file.toPath()))));
 
                 table.removeTableModelListener(tml);
                 table.setSequence(sequence);
